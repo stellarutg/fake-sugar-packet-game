@@ -44,22 +44,30 @@ public class v1 {
 	public static void movePlayer(int[] player1, int[] player2) {
 		// Ask the user for a pawn to move
 		System.out.print("Which pawn do you want to move? ");
-		int move = StdIn.readInt();
-		boolean result = updatePlayer(move, player1, player2);
+		int move = 0;
+		boolean result = false;
+		try {
+			// Read an int representing the pawn to move
+			move = StdIn.readInt();
+			result = updatePlayer(move, player1, player2);
+		} catch(Exception e) {
+			// If the input was not an int, check if the input was pass
+			String pass = StdIn.readString();
+			if(pass.equals("pass"))	return;
+		}
 
 		// If the input was illegal, ask again and repeat until legal or pass
 		while(!result) {
-			System.out.println("Illegal move, try again...");
-			System.out.println("If there are no available moves, input 'pass'.");
+			System.out.println("Illegal move, try again or 'pass' if no move can be done...");
 			try {
 				// Read an int representing the pawn to move
 				move = StdIn.readInt();
+				result = updatePlayer(move, player1, player2);
 			} catch(Exception e) {
 				// If the input was not an int, check if the input was pass
 				String pass = StdIn.readString();
 				if(pass.equals("pass"))	break;
 			}
-			result = updatePlayer(move, player1, player2);
 		}
 	}
 
